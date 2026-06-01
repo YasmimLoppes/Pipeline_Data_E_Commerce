@@ -94,8 +94,3 @@ Ferramenta	| Propósito
 📦 Git / GitHub | Controle de versão e repositório
 
 📌 *Explicação detalhada: [`docs/TECNOLOGIAS_USADAS.md`](docs/TECNOLOGIAS_USADAS.md)*
-
----
-
-## 📂 Estrutura Completa do Projeto
-Organização modular, fácil de manter e escalar:
