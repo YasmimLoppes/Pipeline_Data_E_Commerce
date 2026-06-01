@@ -1,4 +1,4 @@
-# 🛒 Pipeline de Dados E-commerce
+# 🛒 Pipeline de Dados — E-commerce
 **Engenharia de Dados | ETL Completo | Qualidade de Dados | Nuvem | Docker**
 
 > Pipeline completo de extração, transformação e carga de dados de produtos e vendas, seguindo padrões de mercado, regras de negócio e arquitetura profissional. Projeto desenvolvido para portfólio, com foco em qualidade, organização e boas práticas 📊✅
@@ -7,6 +7,7 @@
 
 ## 📋 Sumário
 - [📌 Sobre o Projeto](#-sobre-o-projeto)
+- [🏗️ Arquitetura do Pipeline](#️-arquitetura-do-pipeline)
 - [⚙️ Funcionalidades e Regras de Negócio](#️-funcionalidades-e-regras-de-negócio)
 - [🛠️ Tecnologias Utilizadas](#️-tecnologias-utilizadas)
 - [📂 Estrutura Completa do Projeto](#-estrutura-completa-do-projeto)
@@ -17,27 +18,17 @@
 
 ---
 
-### 🏗️ Arquitetura do Pipeline
-```mermaid
-graph LR
-    API[API de Produtos] -->|Extração| BRONZE[(Camada Bruta)]
-    BRONZE -->|Tratamento| SILVER[(Camada Tratada)]
-    SILVER -->|Regras de Negócio| GOLD[(Camada Analítica)]
-    GOLD -->|Relatórios| BI[Dashboards/Decisão]
-
----
-
 ## 📌 Sobre o Projeto
 
 Este projeto é um **Pipeline de Dados ETL (Extração, Transformação e Carga)** completo, desenvolvido com o objetivo de simular fielmente o fluxo real de dados de uma empresa de e-commerce de médio e grande porte, seguindo rigorosamente as melhores práticas, padrões de mercado e conceitos sólidos de Engenharia de Dados.
 
-A proposta principal é coletar dados de produtos, estoque e preços diretamente de uma fonte externa neste caso, uma API pública aplicar regras de negócio validadas, garantir 100% de qualidade, consistência e confiabilidade das informações, e disponibilizar os dados tratados, organizados e estruturados para diferentes finalidades estratégicas: análise de mercado, controle preciso de estoque, definição de preços e margens, relatórios financeiros, auditoria e tomada de decisão segura.
+A proposta principal é coletar dados de produtos, estoque e preços diretamente de uma fonte externa — neste caso, uma API pública — aplicar regras de negócio validadas, garantir 100% de qualidade, consistência e confiabilidade das informações, e disponibilizar os dados tratados, organizados e estruturados para diferentes finalidades estratégicas: análise de mercado, controle preciso de estoque, definição de preços e margens, relatórios financeiros, auditoria e tomada de decisão segura.
 
 💡 **Um diferencial muito importante:** todo o raciocínio, validações e regras aplicadas foram construídos com base na minha experiência prática anterior, onde atuei diretamente com **Controle de Estoque, Conferência de Valores e Operação de Caixa**. Transformei o conhecimento que tenho do dia a dia de uma loja real em regras técnicas de dados, unindo a visão de negócio com tecnologia de ponta. Sei na prática que **dados errados causam prejuízo, dados duplicados geram contagem errada e dados desorganizados não servem para nada**, e foi exatamente para evitar isso que cada etapa desse pipeline foi pensada e estruturada.
 
 Todo o fluxo foi construído pensando em **escalabilidade, segurança, governança e manutenção**:
 
-- ✅ **Arquitetura de Camadas (Medalhão):** Os dados passam por 3 estágios bem definidos e separados *Bruto → Tratado → Analítico*. Isso garante a preservação total da informação original (nunca alteramos o dado bruto), permite evolução controlada dos dados e deixa tudo organizado por etapa de processamento, facilitando manutenção e auditoria.
+- ✅ **Arquitetura de Camadas (Medalhão):** Os dados passam por 3 estágios bem definidos e separados — *Bruto → Tratado → Analítico*. Isso garante a preservação total da informação original (nunca alteramos o dado bruto), permite evolução controlada dos dados e deixa tudo organizado por etapa de processamento, facilitando manutenção e auditoria.
 
 - ✅ **Qualidade de Dados como prioridade:** Todas as etapas contam com validações rigorosas: remoção de duplicatas, descarte de registros incompletos, validação de intervalos de valores, padronização de textos e categorias. A regra principal aqui é: **só informação confiável e correta pode chegar até a análise final**.
 
@@ -48,6 +39,14 @@ Todo o fluxo foi construído pensando em **escalabilidade, segurança, governan�
 - ✅ **Valor Agregado:** Não apenas coletamos e guardamos dados brutos, mas transformamos eles em informação útil. Calculamos valores totais de estoque, margens de lucro, preços sugeridos e resumos estratégicos, entregando diretamente o que o gestor ou dono do negócio realmente precisa saber.
 
 Além de ser um pipeline funcional, testado e completo, este projeto serve como demonstração prática de domínio das ferramentas, conceitos, arquitetura e processos que são exigidos no dia a dia de um Engenheiro de Dados, mostrando desde a extração da informação crua até a entrega final de inteligência para o negócio.
+
+---
+
+## 🏗️ Arquitetura do Pipeline
+
+O pipeline segue a arquitetura de medalhão, dividida em três camadas principais: **Bruto, Tratado e Analítico**, garantindo segurança, qualidade e evolução dos dados ao longo do processo.
+
+> Fluxo: Extração → Validação e Tratamento → Transformação e Cálculos → Disponibilização
 
 ---
 
@@ -83,21 +82,20 @@ Todas as etapas seguem regras definidas com base em operações reais de varejo 
 
 ## 🛠️ Tecnologias Utilizadas
 
-| Ferramenta | Propósito |
-|---|---|
-| 🐍 **Python 3.11+** | Linguagem principal, manipulação e automação |
-| 🐼 **Pandas / NumPy** | Processamento, limpeza e cálculo de dados em larga escala |
-| 🗄️ **SQLAlchemy / SQLite** | Armazenamento relacional, consultas e persistência |
-| ☁️ **AWS S3 (boto3)** | Armazenamento seguro em nuvem, padrão de mercado |
-| 🐳 **Docker / Docker Compose** | Ambiente isolado, execução igual em qualquer máquina |
-| 🔐 **python-dotenv** | Segurança: armazena chaves e senhas fora do código |
-| 📝 **Logging** | Auditoria, histórico e rastreabilidade total |
-| 📦 **Git / GitHub** | Controle de versão e repositório |
+Ferramenta	| Propósito
+--- | ---
+🐍 Python 3.11+ | Linguagem principal, manipulação e automação
+🐼 Pandas / NumPy | Processamento, limpeza e cálculo de dados em larga escala
+🗄️ SQLAlchemy / SQLite | Armazenamento relacional, consultas e persistência
+☁️ AWS S3 (boto3) | Armazenamento seguro em nuvem, padrão de mercado
+🐳 Docker / Docker Compose | Ambiente isolado, execução igual em qualquer máquina
+🔐 python-dotenv | Segurança: armazena chaves e senhas fora do código
+📝 Logging | Auditoria, histórico e rastreabilidade total
+📦 Git / GitHub | Controle de versão e repositório
 
 📌 *Explicação detalhada: [`docs/TECNOLOGIAS_USADAS.md`](docs/TECNOLOGIAS_USADAS.md)*
 
 ---
 
-👩‍💻 Autora
-Yasmim Lopes
-Engenheira de Dados apaixonada por transformar dados brutos em inteligência.
+## 📂 Estrutura Completa do Projeto
+Organização modular, fácil de manter e escalar:
