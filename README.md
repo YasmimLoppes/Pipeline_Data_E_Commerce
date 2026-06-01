@@ -21,13 +21,13 @@
 
 Este projeto é um **Pipeline de Dados ETL (Extração, Transformação e Carga)** completo, desenvolvido com o objetivo de simular fielmente o fluxo real de dados de uma empresa de e-commerce de médio e grande porte, seguindo rigorosamente as melhores práticas, padrões de mercado e conceitos sólidos de Engenharia de Dados.
 
-A proposta principal é coletar dados de produtos, estoque e preços diretamente de uma fonte externa — neste caso, uma API pública — aplicar regras de negócio validadas, garantir 100% de qualidade, consistência e confiabilidade das informações, e disponibilizar os dados tratados, organizados e estruturados para diferentes finalidades estratégicas: análise de mercado, controle preciso de estoque, definição de preços e margens, relatórios financeiros, auditoria e tomada de decisão segura.
+A proposta principal é coletar dados de produtos, estoque e preços diretamente de uma fonte externa neste caso, uma API pública aplicar regras de negócio validadas, garantir 100% de qualidade, consistência e confiabilidade das informações, e disponibilizar os dados tratados, organizados e estruturados para diferentes finalidades estratégicas: análise de mercado, controle preciso de estoque, definição de preços e margens, relatórios financeiros, auditoria e tomada de decisão segura.
 
 💡 **Um diferencial muito importante:** todo o raciocínio, validações e regras aplicadas foram construídos com base na minha experiência prática anterior, onde atuei diretamente com **Controle de Estoque, Conferência de Valores e Operação de Caixa**. Transformei o conhecimento que tenho do dia a dia de uma loja real em regras técnicas de dados, unindo a visão de negócio com tecnologia de ponta. Sei na prática que **dados errados causam prejuízo, dados duplicados geram contagem errada e dados desorganizados não servem para nada**, e foi exatamente para evitar isso que cada etapa desse pipeline foi pensada e estruturada.
 
 Todo o fluxo foi construído pensando em **escalabilidade, segurança, governança e manutenção**:
 
-- ✅ **Arquitetura de Camadas (Medalhão):** Os dados passam por 3 estágios bem definidos e separados — *Bruto → Tratado → Analítico*. Isso garante a preservação total da informação original (nunca alteramos o dado bruto), permite evolução controlada dos dados e deixa tudo organizado por etapa de processamento, facilitando manutenção e auditoria.
+- ✅ **Arquitetura de Camadas (Medalhão):** Os dados passam por 3 estágios bem definidos e separados *Bruto → Tratado → Analítico*. Isso garante a preservação total da informação original (nunca alteramos o dado bruto), permite evolução controlada dos dados e deixa tudo organizado por etapa de processamento, facilitando manutenção e auditoria.
 
 - ✅ **Qualidade de Dados como prioridade:** Todas as etapas contam com validações rigorosas: remoção de duplicatas, descarte de registros incompletos, validação de intervalos de valores, padronização de textos e categorias. A regra principal aqui é: **só informação confiável e correta pode chegar até a análise final**.
 
