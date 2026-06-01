@@ -134,6 +134,7 @@ Todas as etapas seguem regras definidas com base em operações reais de varejo 
 
 📌 *Detalhes completos de todas as regras: [`docs/REGRAS_DE_NEGOCIO.md`](docs/REGRAS_DE_NEGOCIO.md)*
 
+```
 ---
 
 ## 🛠️ Tecnologias Utilizadas
