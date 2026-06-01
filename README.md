@@ -155,5 +155,7 @@ Ferramenta	| Propósito
 ---
 
 👩‍💻 Autora
+
 Yasmim Lopes
+
 Projeto desenvolvido como estudo prático de Engenharia de Dados, unindo conhecimento técnico com experiência prática em operações, controle de estoque e rotinas administrativas.
