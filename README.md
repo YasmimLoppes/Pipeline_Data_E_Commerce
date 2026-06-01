@@ -18,11 +18,26 @@
 ---
 
 ## 📌 Sobre o Projeto
-Este projeto é um **Pipeline de Dados ETL (Extração, Transformação e Carga)** completo, construído para simular o fluxo real de dados de uma empresa de e-commerce.
 
-O objetivo principal é coletar dados de produtos de uma API pública, aplicar regras de negócio, garantir qualidade das informações e disponibilizar os dados prontos para análise, estoque, precificação e tomada de decisão.
+Este projeto é um **Pipeline de Dados ETL (Extração, Transformação e Carga)** completo, desenvolvido com o objetivo de simular fielmente o fluxo real de dados de uma empresa de e-commerce de médio e grande porte, seguindo rigorosamente as melhores práticas, padrões de mercado e conceitos sólidos de Engenharia de Dados.
 
-Foi desenvolvido seguindo conceitos de **Arquitetura de Camadas**, **Governança de Dados**, **Contêineres** e **Segurança**, tudo organizado como projeto profissional de Engenharia de Dados.
+A proposta principal é coletar dados de produtos, estoque e preços diretamente de uma fonte externa — neste caso, uma API pública — aplicar regras de negócio validadas, garantir 100% de qualidade, consistência e confiabilidade das informações, e disponibilizar os dados tratados, organizados e estruturados para diferentes finalidades estratégicas: análise de mercado, controle preciso de estoque, definição de preços e margens, relatórios financeiros, auditoria e tomada de decisão segura.
+
+💡 **Um diferencial muito importante:** todo o raciocínio, validações e regras aplicadas foram construídos com base na minha experiência prática anterior, onde atuei diretamente com **Controle de Estoque, Conferência de Valores e Operação de Caixa**. Transformei o conhecimento que tenho do dia a dia de uma loja real em regras técnicas de dados, unindo a visão de negócio com tecnologia de ponta. Sei na prática que **dados errados causam prejuízo, dados duplicados geram contagem errada e dados desorganizados não servem para nada**, e foi exatamente para evitar isso que cada etapa desse pipeline foi pensada e estruturada.
+
+Todo o fluxo foi construído pensando em **escalabilidade, segurança, governança e manutenção**:
+
+- ✅ **Arquitetura de Camadas (Medalhão):** Os dados passam por 3 estágios bem definidos e separados — *Bruto → Tratado → Analítico*. Isso garante a preservação total da informação original (nunca alteramos o dado bruto), permite evolução controlada dos dados e deixa tudo organizado por etapa de processamento, facilitando manutenção e auditoria.
+
+- ✅ **Qualidade de Dados como prioridade:** Todas as etapas contam com validações rigorosas: remoção de duplicatas, descarte de registros incompletos, validação de intervalos de valores, padronização de textos e categorias. A regra principal aqui é: **só informação confiável e correta pode chegar até a análise final**.
+
+- ✅ **Padrões Profissionais de Mercado:** Utilização de contêineres (Docker) para garantir que o projeto rode de forma idêntica em qualquer máquina, independente de sistema operacional ou versões instaladas; armazenamento em nuvem (AWS S3) seguindo o que é adotado pelas grandes empresas; e organização modular do código, permitindo que o projeto cresça e seja adaptado para novas necessidades sem bagunça.
+
+- ✅ **Rastreabilidade Total:** Cada arquivo gerado tem data e hora de criação; cada linha de dado tratado carrega consigo informações de origem, data/hora de processamento e histórico de alterações. Isso é essencial para responder, a qualquer momento: *“De onde veio esse dado? Quando foi processado? Quais regras foram aplicadas?”*, requisito básico para conformidade e confiança na informação.
+
+- ✅ **Valor Agregado:** Não apenas coletamos e guardamos dados brutos, mas transformamos eles em informação útil. Calculamos valores totais de estoque, margens de lucro, preços sugeridos e resumos estratégicos, entregando diretamente o que o gestor ou dono do negócio realmente precisa saber.
+
+Além de ser um pipeline funcional, testado e completo, este projeto serve como demonstração prática de domínio das ferramentas, conceitos, arquitetura e processos que são exigidos no dia a dia de um Engenheiro de Dados, mostrando desde a extração da informação crua até a entrega final de inteligência para o negócio.
 
 ---
 
@@ -73,25 +88,6 @@ Todas as etapas seguem regras definidas com base em operações reais de varejo 
 
 ---
 
-## 📂 Estrutura Completa do Projeto
-Organização modular, fácil de manter e escalar:
-
-```text
-Pipeline Data E-Commerce/
-├── config/              # Centralizador de regras e configurações
-├── data/                # Armazenamento: raw, tratado, analitico
-├── docs/                # Documentação detalhada
-├── logs/                # Histórico de execução
-├── scripts/             # Código fonte do ETL (extrair, transformar, carregar)
-├── tests/               # Testes automatizados
-├── .env                 # Variáveis de ambiente (sensíveis)
-├── .gitignore           # Regras de exclusão do Git
-├── docker-compose.yml   # Orquestração
-├── Dockerfile           # Configuração de imagem
-├── main.py              # Ponto de entrada do pipeline
-├── requirements.txt     # Dependências do projeto
-└── setup.py             # Configuração de pacote Python
-
-## 👩‍💻 Autora
-**Yasmim Lopes**
-*Engenheira de Dados apaixonada por transformar dados brutos em inteligência.*
+👩‍💻 Autora
+Yasmim Lopes
+Engenheira de Dados apaixonada por transformar dados brutos em inteligência.
