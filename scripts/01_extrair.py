@@ -10,18 +10,19 @@ logger = configurar_log("extracao")
 
 def extrair_dados():
     try:
-        logger.info("Iniciando Ingestão de Dados (Camada Bronze)")
+        logger.info("Iniciando Ingestão de Dados da API de Produtos")
         resposta = None
 
         for tentativa in range(API_CONFIG["max_retries"]):
             try:
                 resposta = requests.get(
-                    API_CONFIG["url"], 
+                    API_CONFIG["url"],
                     timeout=API_CONFIG["timeout"]
                 )
                 resposta.raise_for_status()
-                logger.info(f"Conexão bem sucedida com a API | Tentativa {tentativa+1}")
+                logger.info(f"Conexão bem sucedida na tentativa {tentativa+1}")
                 break
+
             except Exception as erro:
                 logger.warning(f"Falha na tentativa {tentativa+1}: {erro}")
                 if tentativa < API_CONFIG["max_retries"] - 1:
@@ -30,26 +31,22 @@ def extrair_dados():
                     raise erro
 
         if resposta is None:
-            raise Exception("Sem resposta válida da API do e-commerce.")
+            raise Exception("Sem resposta válida da API após todas as tentativas")
 
-        
+        # Dados capturados e salvos na camada bruta preservando origem
         dados_brutos = resposta.json()
-        df = pd.DataFrame(dados_brutos)
+        df_produtos_brutos = pd.DataFrame(dados_brutos)
 
         data_hora = datetime.now().strftime("%Y%m%d_%H%M%S")
-        caminho_arquivo = os.path.join(PATHS["raw_data"], f"vendas_bruto_{data_hora}.csv")
-        
-        df.to_csv(caminho_arquivo, index=False, encoding='utf-8-sig')
+        caminho_arquivo = os.path.join(PATHS["raw_data"], f"produtos_brutos_{data_hora}.csv")
 
-        logger.info(f"Extração Concluída | {len(df)} registros armazenados em {caminho_arquivo}")
-        print(f"✅ EXTRAÇÃO CONCLUÍDA! Dados originais preservados em: {caminho_arquivo}")
-        
-        return df
+        df_produtos_brutos.to_csv(caminho_arquivo, index=False, encoding='utf-8')
+
+        logger.info(f"Extração Concluída | Total de produtos capturados: {len(df_produtos_brutos)}")
+        print(f"✅ EXTRAÇÃO CONCLUÍDA! Dados originais salvos na camada BRUTA.")
+
+        return df_produtos_brutos
 
     except Exception as erro:
-        logger.error(f"Erro grave na etapa de extração: {erro}", exc_info=True)
-        print("❌ FALHA NA EXTRAÇÃO. Verifique o arquivo logs/extracao.log")
-        raise
-
-if __name__ == "__main__":
-    extrair_dados()
+        logger.error(f"Erro crítico durante extração: {erro}")
+        raise erro
