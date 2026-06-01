@@ -18,6 +18,18 @@
 
 ---
 
+## 🏗️ Arquitetura do Pipeline
+
+```mermaid
+graph LR
+    API[API de Produtos] -->|Extração| BRONZE[(Camada Bruta)]
+    BRONZE -->|Tratamento e Validação| SILVER[(Camada Tratada)]
+    SILVER -->|Regras de Negócio e Cálculos| GOLD[(Camada Analítica)]
+    GOLD -->|Disponibilização| DB[(Banco de Dados)]
+    GOLD -->|Armazenamento| S3[(AWS S3 - Nuvem)]
+
+---
+
 ## 📌 Sobre o Projeto
 
 Este projeto é um **Pipeline de Dados ETL (Extração, Transformação e Carga)** completo, desenvolvido com o objetivo de simular fielmente o fluxo real de dados de uma empresa de e-commerce de médio e grande porte, seguindo rigorosamente as melhores práticas, padrões de mercado e conceitos sólidos de Engenharia de Dados.
