@@ -1,56 +1,97 @@
-# 📊 Pipeline Data E-Commerce
+# 🛒 Pipeline de Dados — E-commerce
+**Engenharia de Dados | ETL Completo | Qualidade de Dados | Nuvem | Docker**
 
-Análise, Ingestão, Qualidade e Governança de Dados de ponta a ponta. Este projeto simula um ambiente real de Engenharia de Dados, consumindo dados de uma API de E-Commerce, aplicando regras de negócio estritas, tratando os dados em conformidade com as boas práticas da arquitetura medalhão (Bronze, Silver, Gold) e distribuindo para armazenamento relacional e nuvem.
+> Pipeline completo de extração, transformação e carga de dados de produtos e vendas, seguindo padrões de mercado, regras de negócio e arquitetura profissional. Projeto desenvolvido para portfólio, com foco em qualidade, organização e boas práticas 📊✅
 
 ---
 
-## 🏗️ Arquitetura do Pipeline
+## 📋 Sumário
+- [📌 Sobre o Projeto](#-sobre-o-projeto)
+- [⚙️ Funcionalidades e Regras de Negócio](#️-funcionalidades-e-regras-de-negócio)
+- [🛠️ Tecnologias Utilizadas](#️-tecnologias-utilizadas)
+- [📂 Estrutura Completa do Projeto](#-estrutura-completa-do-projeto)
+- [🚀 Como Executar](#-como-executar)
+- [📈 Resultados e Saídas](#-resultados-e-saídas)
+- [📚 Documentação Completa](#-documentação-completa)
+- [👩‍💻 Autora](#-autora)
 
-O fluxo de dados foi desenhado seguindo as etapas de um pipeline produtivo moderno:
+---
 
-1. **Ingestão (Camada Bronze):** Script `01_extrair.py` consome a API da Fake Store, tratando resiliência de rede com políticas de retentativas (`max_retries` e `timeout`) e persistindo o histórico bruto em formato CSV com carimbo de data/hora (*timestamp*).
-2. **Transformação e Qualidade (Camada Silver):** Script `02_transformar.py` realiza o saneamento dos dados, remove registros nulos em chaves obrigatórias, elimina duplicidades, padroniza strings para análise textual e calcula métricas de negócio (Preço de Custo, Margem de Lucro Estimada e Valor Total de Estoque).
-3. **Carga e BI (Camada Gold):** Script `03_carregar.py` injeta os dados estruturados em um banco relacional **SQL (SQLite)**, exporta visões agregadas para relatórios gerenciais executivos e realiza o backup dos dados finais no armazenamento em nuvem **Amazon S3**.
+## 📌 Sobre o Projeto
+Este projeto é um **Pipeline de Dados ETL (Extração, Transformação e Carga)** completo, construído para simular o fluxo real de dados de uma empresa de e-commerce.
+
+O objetivo principal é coletar dados de produtos de uma API pública, aplicar regras de negócio, garantir qualidade das informações e disponibilizar os dados prontos para análise, estoque, precificação e tomada de decisão.
+
+Foi desenvolvido seguindo conceitos de **Arquitetura de Camadas**, **Governança de Dados**, **Contêineres** e **Segurança**, tudo organizado como projeto profissional de Engenharia de Dados.
+
+---
+
+## ⚙️ Funcionalidades e Regras de Negócio
+Todas as etapas seguem regras definidas com base em operações reais de varejo e estoque:
+
+✅ **Extração Confiável**
+- Coleta dados da API [Fake Store API](https://fakestoreapi.com/products)
+- Sistema de tentativas e tratamento de falhas
+- Dados brutos salvos com data/hora, **nunca alterados** (imutabilidade)
+
+✅ **Qualidade e Validação**
+- Remoção de registros duplicados
+- Descarte de dados incompletos (sem ID, nome, preço ou categoria)
+- Validação de valores: preço entre R$ 0,01 e R$ 10.000,00
+- Padronização de textos e categorias
+
+✅ **Transformação e Cálculos Estratégicos**
+- Cálculo de valor total do estoque
+- Definição de margem de lucro e preço de venda sugerido
+- Criação de colunas de auditoria: data de processamento e origem do dado
+- Geração de visão analítica: resumo por categoria, média de preços e valores totais
+
+✅ **Armazenamento e Carga**
+- Salvamento em camadas: **Bruto → Tratado → Analítico**
+- Carga automática em Banco de Dados Relacional (SQLite)
+- Envio seguro para armazenamento em nuvem (AWS S3)
+- Registro completo de tudo que acontece em arquivos de Log
+
+📌 *Detalhes completos de todas as regras: [`docs/REGRAS_DE_NEGOCIO.md`](docs/REGRAS_DE_NEGOCIO.md)*
 
 ---
 
 ## 🛠️ Tecnologias Utilizadas
 
-* **Linguagem Principal:** Python 3.11
-* **Manipulação de Dados:** Pandas / NumPy
-* **Conectividade & Nuvem:** Requests / Boto3 (AWS SDK)
-* **Banco de Dados:** SQLAlchemy / SQLite
-* **Infraestrutura e Isolamento:** Docker / Docker Compose
-* **Versionamento & Ambiente:** Git / Python-Dotenv
+| Ferramenta | Propósito |
+|---|---|
+| 🐍 **Python 3.11+** | Linguagem principal, manipulação e automação |
+| 🐼 **Pandas / NumPy** | Processamento, limpeza e cálculo de dados em larga escala |
+| 🗄️ **SQLAlchemy / SQLite** | Armazenamento relacional, consultas e persistência |
+| ☁️ **AWS S3 (boto3)** | Armazenamento seguro em nuvem, padrão de mercado |
+| 🐳 **Docker / Docker Compose** | Ambiente isolado, execução igual em qualquer máquina |
+| 🔐 **python-dotenv** | Segurança: armazena chaves e senhas fora do código |
+| 📝 **Logging** | Auditoria, histórico e rastreabilidade total |
+| 📦 **Git / GitHub** | Controle de versão e repositório |
+
+📌 *Explicação detalhada: [`docs/TECNOLOGIAS_USADAS.md`](docs/TECNOLOGIAS_USADAS.md)*
 
 ---
 
-## 📂 Estrutura do Projeto
+## 📂 Estrutura Completa do Projeto
+Organização modular, fácil de manter e escalar:
 
 ```text
-Pipeline_Data_E_Commerce/
-│
-├── config/
-│   └── __init__.py          # Centralização de variáveis, caminhos e regras de negócio
-│
-├── data/                    # Camadas de Armazenamento Local (Bronze, Silver, Gold)
-│   ├── 01_raw/              # Dados brutos originais da API
-│   ├── 02_tratado/          # Dados limpos e sanitizados
-│   └── 03_analitico/        # Relatórios prontos para BI
-│
-├── logs/                    # Arquivos de auditoria de execução por módulo
-│
-├── scripts/
-│   ├── __init__.py          # Fachada de importação inteligente (blindagem de sintaxe)
-│   ├── 01_extrair.py        # Motor de ingestão e resiliência de API
-│   ├── 02_transformar.py    # Motor de regras de negócio e qualidade
-│   ├── 03_carregar.py       # Distribuidor de carga (SQL, S3 e Agregações)
-│   └── utils.py             # Funções de suporte (autocriação de pastas e logs)
-│
-├── .env                     # Variáveis de ambiente e chaves (protegido pelo .gitignore)
-├── .gitignore               # Filtro de arquivos locais e sensíveis para o Git
-├── Dockerfile               # Configuração da imagem isolada do container
-├── docker-compose.yml       # Orquestração do container local
-├── main.py                  # Maestro/Orquestrador principal de ponta a ponta
-├── requirements.txt         # Bibliotecas e dependências com versões travadas
-└── setup.py                 # Empacotamento do projeto
+Pipeline Data E-Commerce/
+├── config/              # Centralizador de regras e configurações
+├── data/                # Armazenamento: raw, tratado, analitico
+├── docs/                # Documentação detalhada
+├── logs/                # Histórico de execução
+├── scripts/             # Código fonte do ETL (extrair, transformar, carregar)
+├── tests/               # Testes automatizados
+├── .env                 # Variáveis de ambiente (sensíveis)
+├── .gitignore           # Regras de exclusão do Git
+├── docker-compose.yml   # Orquestração
+├── Dockerfile           # Configuração de imagem
+├── main.py              # Ponto de entrada do pipeline
+├── requirements.txt     # Dependências do projeto
+└── setup.py             # Configuração de pacote Python
+
+## 👩‍💻 Autora
+**Yasmim Lopes**
+*Engenheira de Dados apaixonada por transformar dados brutos em inteligência.*
