@@ -1,4 +1,4 @@
-# 🛒 Pipeline de Dados — E-commerce
+# 🛒 Pipeline de Dados E-commerce
 **Engenharia de Dados | ETL Completo | Qualidade de Dados | Nuvem | Docker**
 
 > Pipeline completo de extração, transformação e carga de dados de produtos e vendas, seguindo padrões de mercado, regras de negócio e arquitetura profissional. Projeto desenvolvido para portfólio, com foco em qualidade, organização e boas práticas 📊✅
