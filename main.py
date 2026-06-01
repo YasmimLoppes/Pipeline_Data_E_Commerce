@@ -5,11 +5,10 @@ import logging
 # Garante que a raiz do projeto está no caminho de busca do Python
 sys.path.insert(0, os.path.abspath(os.path.dirname(__file__)))
 
-from scripts.utils import garantir_diretorios, configurar_log, buscar_arquivo_mais_recente
-from scripts.01_extrair import extrair_dados
-from scripts.02_transformar import transformar_dados
-from scripts.03_carregar import carregar_dados
-from config import PATHS
+# ✅ IMPORTAÇÃO CORRIGIDA (Sem os números que travam o Python)
+from scripts import extrair_dados, transformar_dados, carregar_dados  # type: ignore
+from scripts.utils import garantir_diretorios, configurar_log, buscar_arquivo_mais_recente  # type: ignore
+from config import PATHS  # type: ignore
 
 logger = configurar_log("orquestrador_main")
 
@@ -31,7 +30,6 @@ def executar_pipeline():
         
         # Passo 3: Carga
         print("\n=== PASSO 3: CARGA (SQL & NUVEM) ===")
-        # Localiza o arquivo gerado no passo 2 para passar para a carga
         arquivo_silver = buscar_arquivo_mais_recente(PATHS["processed_data"], "vendas_tratado_*.csv")
         carregar_dados(df_tratado, arquivo_silver)
         
