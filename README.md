@@ -94,3 +94,8 @@ Ferramenta	| Propósito
 📦 Git / GitHub | Controle de versão e repositório
 
 📌 *Explicação detalhada: [`docs/TECNOLOGIAS_USADAS.md`](docs/TECNOLOGIAS_USADAS.md)*
+
+---
+
+👩‍💻 Autora
+Yasmim Lopes Engenheira de Dados apaixonada por transformar dados brutos em inteligência.
