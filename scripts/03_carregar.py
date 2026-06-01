@@ -1,97 +1,41 @@
 import pandas as pd
-import boto3
-from sqlalchemy import create_engine, text
 from datetime import datetime
 import os
-import logging
 from config import PATHS, AWS_CONFIG
-from scripts.utils import configurar_log, buscar_arquivo_mais_recente
+from scripts.utils import configurar_log
+from scripts.aws_utils import enviar_para_s3
+from scripts.database import carregar_no_banco
 
-logger = configurar_log("carga")
+logger = configurar_log("carregamento")
 
-def carregar_dados(df, caminho_local_original):
-    print("🗄️ Inicializando Carga e Distribuição de Dados...")
+def carregar_dados(df_produtos_validados, df_analitico):
     try:
-        # ==================================================
-        # PASSO 1: GRAVAÇÃO NO BANCO RELACIONAL SQL (SQLite)
-        # ==================================================
-        engine = create_engine('sqlite:///banco_vendas_ecommerce.db')
+        logger.info("Iniciando etapa de carregamento e disponibilização dos dados")
 
-        with engine.connect() as conexao:
-            conexao.execute(text("""
-                CREATE TABLE IF NOT EXISTS produtos_vendas (
-                    id_produto INTEGER PRIMARY KEY,
-                    nome_produto_padrao TEXT NOT NULL,
-                    categoria_padrao TEXT,
-                    preco_custo REAL,
-                    valor_total_estoque REAL,
-                    margem_lucro_estimada REAL,
-                    preco_venda_sugerido REAL,
-                    avaliacao_cliente REAL,
-                    data_processamento TEXT,
-                    origem_dado TEXT
-                )
-            """))
-            conexao.commit()
-
-        df.to_sql('produtos_vendas', con=engine, if_exists='replace', index=False)
-        logger.info("Sucesso: Dados injetados na tabela relacional 'produtos_vendas'")
-        print("✅ Dados armazenados no Banco SQL Local")
-
-        # ==================================================
-        # PASSO 2: COMPARTILHAMENTO DE BACKUP NA NUVEM AWS S3
-        # ==================================================
-        if not AWS_CONFIG["access_key"] or AWS_CONFIG["access_key"] == "SUA_CHAVE_AQUI":
-            logger.warning("Upload S3 ignorado: Credenciais ausentes ou padrão no .env")
-            print("⚠️ Cloud Storage: Upload S3 ignorado (credenciais não configuradas no arquivo .env)")
-        else:
-            s3 = boto3.client(
-                's3',
-                aws_access_key_id=AWS_CONFIG["access_key"],
-                aws_secret_access_key=AWS_CONFIG["secret_key"],
-                region_name=AWS_CONFIG["region"]
-            )
-
-            data_hoje = datetime.now().strftime("%Y%m%d")
-            nome_arquivo_s3 = f"vendas_dados_prontos_{data_hoje}.csv"
-
-            s3.upload_file(
-                Filename=caminho_local_original,
-                Bucket=AWS_CONFIG["bucket"],
-                Key=f"ecommerce/dados_processados/{nome_arquivo_s3}"
-            )
-            logger.info(f"Sucesso: Upload enviado ao S3 -> Bucket: {AWS_CONFIG['bucket']}")
-            print("✅ Arquivo de dados replicado com segurança no Amazon S3")
-
-        # ==================================================
-        # PASSO 3: GERACÃO DE AGREGAÇÕES PARA NEGÓCIO (Camada Gold)
-        # ==================================================
-        df_resumo_categoria = df.groupby('categoria_padrao').agg(
-            quantidade_produtos=('id_produto', 'count'),
-            valor_total_estoque=('valor_total_estoque', 'sum'),
-            media_preco_venda=('preco_venda_sugerido', 'mean')
-        ).reset_index()
-
-        # Arredondamentos estéticos do relatório executivo
-        df_resumo_categoria['valor_total_estoque'] = round(df_resumo_categoria['valor_total_estoque'], 2)
-        df_resumo_categoria['media_preco_venda'] = round(df_resumo_categoria['media_preco_venda'], 2)
-
+        # Salvando arquivo final consolidado
         data_hora = datetime.now().strftime("%Y%m%d_%H%M%S")
-        caminho_analitico = os.path.join(PATHS["analytics_data"], f"resumo_por_categoria_{data_hora}.csv")
-        
-        df_resumo_categoria.to_csv(caminho_analitico, index=False, encoding='utf-8-sig')
-        logger.info(f"Sucesso: Matriz de BI sumarizada exportada para {caminho_analitico}")
-        print(f"✅ VISÃO ANALÍTICA CONCLUÍDA! Relatório executivo disponível em: {caminho_analitico}")
+        caminho_final = os.path.join(PATHS["final_data"], f"produtos_consolidados_{data_hora}.csv")
+        df_produtos_validados.to_csv(caminho_final, index=False, encoding='utf-8')
+        logger.info(f"Arquivo consolidado salvo em: {caminho_final}")
+
+        # Envio para a nuvem AWS S3 - armazenamento seguro e escalável
+        if AWS_CONFIG["enabled"]:
+            logger.info("Enviando arquivos para a nuvem AWS S3")
+            enviar_para_s3(caminho_final, AWS_CONFIG["bucket_name"], f"produtos/produtos_consolidados_{data_hora}.csv")
+            enviar_para_s3(os.path.join(PATHS["analytics_data"], f"resumo_produtos_{data_hora}.csv"), 
+                           AWS_CONFIG["bucket_name"], 
+                           f"analitico/resumo_produtos_{data_hora}.csv")
+
+        # Carregamento no Banco de Dados SQL para consultas rápidas
+        logger.info("Carregando dados estruturados no Banco SQL")
+        carregar_no_banco(df_produtos_validados, "produtos")
+        carregar_no_banco(df_analitico, "resumo_categorias")
+
+        logger.info("Carregamento finalizado com sucesso! Dados disponíveis para uso.")
+        print(f"✅ CARREGAMENTO CONCLUÍDO! Tudo salvo na nuvem e no banco de dados.")
+
+        return True
 
     except Exception as erro:
-        logger.error(f"Erro fatal na rotina de carregamento: {erro}", exc_info=True)
-        print("❌ FALHA NA CARGA DOS DADOS. Verifique o arquivo logs/carga.log")
-        raise
-
-if __name__ == "__main__":
-    try:
-        arquivo_silver = buscar_arquivo_mais_recente(PATHS["processed_data"], "vendas_tratado_*.csv")
-        df_pronto = pd.read_csv(arquivo_silver)
-        carregar_dados(df_pronto, arquivo_silver)
-    except Exception as e:
-        print(f"Erro ao executar carga isolada: {e}")
+        logger.error(f"Erro durante etapa de carregamento: {erro}")
+        raise erro
