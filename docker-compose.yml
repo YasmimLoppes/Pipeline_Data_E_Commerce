@@ -1,0 +1,14 @@
+version: '3.8'
+
+services:
+  pipeline-ecommerce:
+    build: .
+    container_name: pipeline_data_ecommerce
+    # Compartilha os volumes locais com o container para acompanhar os outputs no VS Code
+    volumes:
+      - .:/app
+    # Passa as variáveis do seu arquivo .env para dentro do Docker
+    env_file:
+      - .env
+    environment:
+      - PYTHONPATH=/app

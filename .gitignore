@@ -1,0 +1,26 @@
+# Configurações locais e chaves secretas (NUNCA SUBIR)
+.env
+.env.*
+
+# Pastas de dados locais e históricos (Muito pesadas para o Git)
+/data/*
+!/data/README.md
+*.db
+
+# Logs do sistema
+/logs/*
+
+# Python e Ambientes Virtuais
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.venv/
+venv/
+env/
+
+# IDE e Sistema Operacional
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
