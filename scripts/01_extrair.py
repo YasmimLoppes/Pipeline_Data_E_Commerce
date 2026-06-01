@@ -32,7 +32,7 @@ def extrair_dados():
         if resposta is None:
             raise Exception("Sem resposta válida da API do e-commerce.")
 
-        # Transformação básica da API para Tabela Raw
+        
         dados_brutos = resposta.json()
         df = pd.DataFrame(dados_brutos)
 
