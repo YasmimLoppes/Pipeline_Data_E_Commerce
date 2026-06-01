@@ -26,6 +26,7 @@ graph LR
     GOLD -->|Relatórios| BI[Dashboards/Decisão]
 
 ---
+
 ## 📌 Sobre o Projeto
 
 Este projeto é um **Pipeline de Dados ETL (Extração, Transformação e Carga)** completo, desenvolvido com o objetivo de simular fielmente o fluxo real de dados de uma empresa de e-commerce de médio e grande porte, seguindo rigorosamente as melhores práticas, padrões de mercado e conceitos sólidos de Engenharia de Dados.
