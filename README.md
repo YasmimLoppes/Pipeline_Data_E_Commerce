@@ -27,7 +27,6 @@ graph LR
     SILVER -->|Regras de Negócio e Cálculos| GOLD[(Camada Analítica)]
     GOLD -->|Disponibilização| DB[(Banco de Dados)]
     GOLD -->|Armazenamento| S3[(AWS S3 - Nuvem)]
-
 ---
 
 ## 📌 Sobre o Projeto
