@@ -16,13 +16,69 @@
 - [📚 Documentação Completa](#-documentação-completa)
 - [👩‍💻 Autora](#-autora)
 
+
 ---
 
-## 📌 Sobre o Projeto
+## 📌 Contexto do Projeto
 
-Este projeto é um **Pipeline de Dados ETL (Extração, Transformação e Carga)** completo, desenvolvido com o objetivo de simular fielmente o fluxo real de dados de uma empresa de e-commerce de médio e grande porte, seguindo rigorosamente as melhores práticas, padrões de mercado e conceitos sólidos de Engenharia de Dados.
+Este projeto simula um cenário real de negócio onde a empresa fictícia *Loja Digital* dependia de planilhas e processos manuais para controle de produtos, estoque e acompanhamento de vendas. Com o crescimento do negócio, tornou-se necessária uma solução mais robusta, ágil e confiável para lidar com o volume e a variedade de informações.
 
-A proposta principal é coletar dados de produtos, estoque e preços diretamente de uma fonte externa neste caso, uma API pública aplicar regras de negócio validadas, garantir 100% de qualidade, consistência e confiabilidade das informações, e disponibilizar os dados tratados, organizados e estruturados para diferentes finalidades estratégicas: análise de mercado, controle preciso de estoque, definição de preços e margens, relatórios financeiros, auditoria e tomada de decisão segura.
+Foi solicitada uma solução que permita:
+- centralizar os dados de produtos, estoque e transações em um só lugar;
+- automatizar todo o processamento, eliminando trabalho manual;
+- garantir qualidade, consistência e segurança das informações;
+- disponibilizar dados estruturados para análise e tomada de decisão.
+
+A proposta deste projeto foi projetar e implementar um pipeline de dados completo, desde a coleta da informação até a visualização analítica, seguindo as melhores práticas do mercado.
+
+---
+
+## 🎯 Objetivos
+
+O projeto tem como objetivo desenvolver uma arquitetura de dados moderna capaz de:
+
+- realizar extração automatizada de dados de fontes externas (API);
+- orquestrar todo o fluxo de dados de forma confiável;
+- transformar, limpar e modelar dados para análise estratégica;
+- aplicar regras de negócio e garantir a qualidade total das informações;
+- armazenar e organizar os dados em camadas;
+- disponibilizar informações em formatos acessíveis para consultas e relatórios.
+
+---
+
+## 🔌 Conexão e Coleta de Dados
+
+O pipeline inicia com a coleta de dados diretamente de uma API pública de produtos, que contém informações cadastrais, valores e categorias. Essa é a fonte principal de dados da empresa.
+
+Nessa etapa foram realizadas:
+
+- integração e conexão segura com a API;
+- tratamento de falhas e tentativas automáticas;
+- armazenamento dos dados originais sem alterações;
+- entendimento completo da estrutura e formato das informações recebidas.
+
+Essa fase permite capturar a informação bruta e preservá-la integralmente, antes de qualquer tipo de modificação.
+
+---
+
+## ⚙️ Pipeline de Dados
+
+O pipeline foi construído utilizando a abordagem **ETL (Extração, Transformação e Carga)**, muito utilizada no mercado. Os dados passam por três camadas evolutivas: *Bruto → Tratado → Analítico*.
+
+Inicialmente os dados são salvos em sua forma original, posteriormente são limpos, validados e enriquecidos, e por fim são transformados em informações prontas para análise.
+
+Durante essa etapa foram implementados:
+
+- remoção de registros duplicados ou inválidos;
+- preenchimento e padronização de campos;
+- validação de intervalos de valores e regras de negócio;
+- cálculos de métricas estratégicas (valor total, margem, sugestão de preço);
+- criação de colunas de auditoria e rastreabilidade;
+- separação dos dados por camadas, conforme arquitetura de medalhão.
+
+Todo o fluxo foi projetado para ser repetível, auditável e seguro.
+
+```
 
 💡 **Um diferencial muito importante:** todo o raciocínio, validações e regras aplicadas foram construídos com base na minha experiência prática anterior, onde atuei diretamente com **Controle de Estoque, Conferência de Valores e Operação de Caixa**. Transformei o conhecimento que tenho do dia a dia de uma loja real em regras técnicas de dados, unindo a visão de negócio com tecnologia de ponta. Sei na prática que **dados errados causam prejuízo, dados duplicados geram contagem errada e dados desorganizados não servem para nada**, e foi exatamente para evitar isso que cada etapa desse pipeline foi pensada e estruturada.
 
@@ -98,4 +154,5 @@ Ferramenta	| Propósito
 ---
 
 👩‍💻 Autora
-Yasmim Lopes Engenheira de Dados apaixonada por transformar dados brutos em inteligência.
+Yasmim Lopes
+Projeto desenvolvido como estudo prático de Engenharia de Dados, unindo conhecimento técnico com experiência prática em operações, controle de estoque e rotinas administrativas.
